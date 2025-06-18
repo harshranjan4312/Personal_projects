@@ -1,0 +1,56 @@
+
+OCR script that can be used for extracting text from images, .pdf and .docx file formats.
+
+Instructions for Use:
+
+
+
+1. Make sure all dependencies are installed first. Ensure that your machine has Python 3.7+ installed and run the following command in the terminal:
+
+    pip install -r requirements.txt 
+ 
+Please note that the tesseract OCR engine and Poppler are not python libraries, and must be installed separately:
+
+    For the OCR engine:
+
+        Windows: download from https://github.com/tesseract-ocr/tesseract. Run the installer and add the download's bin/ to your system PATH.
+
+        Ubuntu/Debian: run the following in your terminal:
+        sudo apt update
+        sudo apt install tesseract-ocr
+
+        MacOS: run the following in your terminal:
+        brew install tesseract
+
+    For Poppler:
+
+        Windows: download from https://github.com/oschwartz10612/poppler-windows. Run the installer and add the download's bin/ to your system PATH.
+
+        Ubuntu/Debian: run the following in your terminal:
+
+        sudo apt install poppler-utils
+
+        MacOS: run the following in your terminal:
+
+        brew install poppler
+
+NOTE: Please make sure that Microsoft Word is downloaded. It is used to convert .docx file types into pdf's, which is necessary for this program.
+
+2. Pick an input file (image file types, .docx, .pdf) to run through the OCR script. Please make sure the input file name does not have any spaces. Then, run the following in your terminal:
+
+        python3 main.py [file_name] 
+
+This will return an initial image, which will likely be either far too light or far too dark. If it is too light, try increasing the threshold for binarization. If it is too dark, try reducing the threshold for binarization. The value for this threshold will differ based on the file, so try several different values until you get a clear image with good contrast.
+
+3. In order to change the threshold value, opening and closing kernel values for morphological operations, and the minimum size of artifacts that are removed by the connected component filtering processing, you can use the following command in your terminal when converting the file: 
+
+    python3 main.py [file_name] --threshold [threshold_value] --open [opening_kernel_value] --close [closing_kernel_value] --minsize [minimum_size_value]
+where each of the  [threshold_value] [opening_kernel_value] [closing_kernel_value] [minimum_size_value] should be modified based on the file passed to the program.
+
+Note:
+Increasing the kernel size will apply a stronger smoothing effect, potentially removing larger or finer details.
+Increasing the minimum artifact size in connected component filtering will remove more small noise components, keeping only larger connected regions.
+
+4. Once the program runs, it will output the fully preprocessed image files in the preprocessed_image folder, and the output text file can be viewed in the output_text folder. You can view the preprocessed image in its folder to gague modifications to the threshold, kernel, and minimum size values. 
+
+Final Note: This program is specialized for typed text, and may experience some difficulty processing very messy handwriting.
